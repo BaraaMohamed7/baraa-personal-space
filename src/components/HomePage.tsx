@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import HeroPortrait from './HeroPortrait';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { experiences, projects, socials, type Language, type Project } from '@/data/site';
 
@@ -212,7 +213,7 @@ function Hero({ lang, reducedMotion }: { lang: Language; reducedMotion: boolean 
           <div className="hero-visual-frame">
             <div className="portrait-halo" aria-hidden="true" />
             <div className="portrait-rings" aria-hidden="true"><span /><span /><span /></div>
-            <Image src="/images/hero-cutout.png" alt={lang === 'ar' ? 'البراء مبتسم في صورة شخصية عفوية وهو جالس' : 'Baraa smiling in a relaxed seated portrait'} className="hero-portrait" width={1172} height={1132} priority />
+            <HeroPortrait lang={lang} />
             <div className="portrait-card note-a" aria-hidden="true">Builder</div><div className="portrait-card note-b" aria-hidden="true">Thinker</div>
           </div>
         </div>
@@ -246,14 +247,18 @@ function Projects({ lang }: { lang: Language }) {
   const t = copy[lang];
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem('baraa-hidden-projects');
-      if (saved) {
-        const parsed: unknown = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) setHiddenIds(parsed);
-      }
-    } catch { /* Private browsing or invalid saved data. */ }
-    setReady(true);
+    // Read browser-only state after hydration, without synchronously setting React state in an effect.
+    const timer = window.setTimeout(() => {
+      try {
+        const saved = window.localStorage.getItem('baraa-hidden-projects');
+        if (saved) {
+          const parsed: unknown = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) setHiddenIds(parsed);
+        }
+      } catch { /* Private browsing or invalid saved data. */ }
+      setReady(true);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const stacks = useMemo(() => ['All', ...new Set(projects.flatMap(project => project.stack))], []);

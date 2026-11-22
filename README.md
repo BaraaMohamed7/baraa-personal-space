@@ -29,7 +29,7 @@ You can use `npm run start` after a successful build.
 - **`src/app/globals.css`**: colors in `:root`, typography, spacing, background textures, star density, geometry and mobile styling.
 - **`src/components/HomePage.tsx`**: React components for every section, translation copy, typing effect, filtering, motion, and language toggle.
 - **`src/data/site.ts`**: project details, stack, domains, visibility, experiences, and social links. Add a new `Project` object to add a card. Set `published: false` to hide it from the site entirely.
-- **`public/images/hero-cutout.png`**: current edited transparent cutout from your seated photo.
+- **`src/components/HeroPortrait.tsx`**: a non-destructive SVG silhouette based on the untouched seated photo; no generative face/clothing changes.
 - **`public/images/hero-original.png`**: original photo untouched for future retouching.
 - **`src/app/layout.tsx`**: site metadata and font links.
 
@@ -46,7 +46,7 @@ You can use `npm run start` after a successful build.
 
 - This is a front-end prototype, not production-ready content management.
 - Project status, dates and descriptions should be reviewed and improved before publishing.
-- The portrait cutout is a local, approximate mask made from the untouched original pixels. It is not a perfect professional hair/edge extraction; the original is included to replace it.
+- The hero displays the unchanged original image through an approximate, editable SVG silhouette. It avoids generated-text/face distortion but its outline may still need professional refinements, particularly at small hair/shoulder details.
 - Google Fonts loads over the network with system fallbacks when offline.
 - The package is intentionally distributed without `node_modules` or `.next` for a small download. `npm install` generates the `package-lock.json` on your computer; commit the lockfile to Git.
 - The sandbox environment could not complete registry access, so dependencies/build have **not** been verified in a full Next.js compilation here. TypeScript/TSX syntax was checked locally. Run `npm run typecheck`, `npm run lint`, and `npm run build` after installing.
@@ -54,3 +54,9 @@ You can use `npm run start` after a successful build.
 ## Next step
 
 Once it starts locally, we can polish image edges, tune mobile layout, project cards, metadata and animations, then move content into a CMS if needed.
+
+## Pull requests and Vercel deployment
+
+- GitHub Actions runs `npm ci`, `npm run typecheck`, `npm run lint`, and `npm run build` for pull requests and pushes to `main`.
+- To enable deployments, import this GitHub repository into Vercel and select the Next.js framework. Vercel creates Preview Deployments for PRs and deploys Production on pushes to the production branch (`main` by default).
+- No cron job is necessary for continuous integration or deployment.
