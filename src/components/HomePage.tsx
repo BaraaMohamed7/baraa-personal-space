@@ -247,14 +247,18 @@ function Projects({ lang }: { lang: Language }) {
   const t = copy[lang];
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem('baraa-hidden-projects');
-      if (saved) {
-        const parsed: unknown = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) setHiddenIds(parsed);
-      }
-    } catch { /* Private browsing or invalid saved data. */ }
-    setReady(true);
+    // Read browser-only state after hydration, without synchronously setting React state in an effect.
+    const timer = window.setTimeout(() => {
+      try {
+        const saved = window.localStorage.getItem('baraa-hidden-projects');
+        if (saved) {
+          const parsed: unknown = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) setHiddenIds(parsed);
+        }
+      } catch { /* Private browsing or invalid saved data. */ }
+      setReady(true);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const stacks = useMemo(() => ['All', ...new Set(projects.flatMap(project => project.stack))], []);
