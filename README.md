@@ -60,3 +60,20 @@ Once it starts locally, we can polish image edges, tune mobile layout, project c
 - GitHub Actions runs `npm ci`, `npm run typecheck`, `npm run lint`, and `npm run build` for pull requests and pushes to `main`.
 - To enable deployments, import this GitHub repository into Vercel and select the Next.js framework. Vercel creates Preview Deployments for PRs and deploys Production on pushes to the production branch (`main` by default).
 - No cron job is necessary for continuous integration or deployment.
+
+
+## Content Studio / Admin
+
+The public website uses a Vercel Blob-backed content document. Open `/admin` to manage it. The panel covers bilingual text, typing roles, projects, experience, social links, image uploads, and section visibility.
+
+- The first login requires `ADMIN_PASSWORD_HASH` (PBKDF2-SHA256 salt:hash) and `ADMIN_SESSION_SECRET` (random 40+ character secret). Configure both as secret environment variables for Production and Preview. Never commit plaintext passwords.
+- Content persistence uses the connected Vercel Blob store via `BLOB_READ_WRITE_TOKEN`. All writes are server-side and require a signed, httpOnly, SameSite=Strict session cookie. Origin checks protect write requests.
+- Data is stored as immutable published JSON releases under `portfolio/releases/` and is read dynamically. Edits are not public until **Publish changes**. The admin checks version conflicts before overwriting a newer release.
+- Image uploads go to `portfolio/media/`, max 3MB and limited to PNG/JPEG/WEBP/GIF. Uploaded media needs a subsequent **Publish changes** to appear on the public website.
+- Defaults from `src/data/content-defaults.ts` keep the public site functional if the Blob store isn't configured yet or before its first publish.
+- On localhost, you must configure Blob and admin environment variables in `.env.local` to sign in and save. Public-only development works without credentials.
+- Admin sign-in uses a generated, high-entropy password and a signed 12-hour cookie. Rotate the password and session secret immediately if shared accidentally. Add rate limiting or SSO when expanding administration beyond one owner.
+- The current release history is capped at 1000 releases per store in this lightweight implementation; archive older releases before reaching that count.
+- The homepage no longer displays a cliché eyebrow label, numbered section counters, or visitor-side project management controls.
+
+Content is stored in Vercel Blob, not `localStorage` or the Git repository: **content-only changes do not require a redeploy**. Changes to layout/components still use GitHub PRs and Vercel CI/CD.
