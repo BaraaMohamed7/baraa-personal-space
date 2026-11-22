@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import type { SiteContent } from '@/data/content-defaults';
 import type { Experience, Project, Language } from '@/data/site';
 
@@ -44,6 +45,7 @@ function TwoLanguages({label,value,onChange,large=false}:{label:string;value:{en
 }
 
 export default function AdminPanel(){
+  const router = useRouter();
   const [snapshot,setSnapshot]=useState<Snapshot|null>(null);
   const [tab,setTab]=useState<Tab>('text');
   const [group,setGroup]=useState('hero');
@@ -81,7 +83,7 @@ export default function AdminPanel(){
   }
   async function logout(){
     await fetch('/api/admin/logout',{method:'POST'});
-    window.location.assign('/admin');
+    router.refresh();
   }
   async function uploadFile(key:ImageKey,file:File){
     setBusy(true);setError('');setStatus('Uploading image…');
