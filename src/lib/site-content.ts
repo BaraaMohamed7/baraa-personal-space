@@ -45,7 +45,7 @@ export function validateContent(input: unknown): SiteContent {
   if (!isPlainObject(copy) || !isPlainObject(copy.en) || !isPlainObject(copy.ar)) throw new Error('Invalid translations');
   for (const language of ['en','ar'] as const) {
     for (const key of Object.keys(defaultSiteContent.copy[language])) {
-      if (!textValue(copy[language][key], 8000)) throw new Error(`Invalid translation: ${language}.${key}`);
+      if (!textValue((copy[language] as Record<string, unknown>)[key], 8000)) throw new Error(`Invalid translation: ${language}.${key}`);
     }
   }
   if (!isPlainObject(roles) || !['en','ar'].every(l => Array.isArray(roles[l]) && (roles[l] as unknown[]).length <= 20 && (roles[l] as unknown[]).every(x=>textValue(x,120)))) throw new Error('Invalid roles');
