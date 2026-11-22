@@ -150,6 +150,7 @@ function SectionKicker({ children }: { number?: string; children: ReactNode }) {
 }
 
 function Hero({ lang, reducedMotion }: { lang: Language; reducedMotion: boolean }) {
+  const { images } = useSite();
   const t = useSite().copy[lang];
   return (
     <section className="hero section" id="top" aria-labelledby="hero-title">
