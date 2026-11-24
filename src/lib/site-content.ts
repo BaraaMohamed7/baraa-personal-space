@@ -66,9 +66,14 @@ export function validateContent(input: unknown): SiteContent {
     if (ids.has(e.id)) throw new Error('Duplicate experience ID'); ids.add(e.id);
   }
   if (!isPlainObject(socials) || !safeUrl(socials.github) || !safeUrl(socials.linkedin)) throw new Error('Invalid social links');
+  // Older releases predate these fields; keep explicit empty values as hidden buttons.
+  const whatsapp = socials.whatsapp === undefined ? defaultSiteContent.socials.whatsapp : socials.whatsapp;
+  const email = socials.email === undefined ? defaultSiteContent.socials.email : socials.email;
+  if (!textValue(whatsapp, 16) || (whatsapp !== '' && !/^\+?[1-9]\d{6,14}$/.test(whatsapp))) throw new Error('Invalid WhatsApp number: include the country code and use digits only, with an optional leading +');
+  if (!textValue(email, 254) || (email !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) throw new Error('Invalid email address');
   if (!isPlainObject(images) || !['hero','sea','event'].every(k=>safeUrl(images[k]) && Boolean(images[k]))) throw new Error('Invalid image URLs');
   if (!isPlainObject(sections) || !['work','experience','about','now','contact'].every(k=>typeof sections[k] === 'boolean')) throw new Error('Invalid section visibility');
-  return input as unknown as SiteContent;
+  return { ...input, socials: { ...socials, whatsapp, email } } as unknown as SiteContent;
 }
 
 async function latestRelease(): Promise<ListedBlob | null> {

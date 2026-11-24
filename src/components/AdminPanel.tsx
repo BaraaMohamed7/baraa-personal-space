@@ -12,7 +12,7 @@ type ImageKey = keyof SiteContent['images'];
 type SectionKey = keyof SiteContent['sections'];
 const tabs: {id:Tab;label:string}[] = [
   {id:'text',label:'Page copy'}, {id:'roles',label:'Typing roles'}, {id:'projects',label:'Projects'},
-  {id:'experience',label:'Experience'}, {id:'links',label:'Social links'},
+  {id:'experience',label:'Experience'}, {id:'links',label:'Contact & social links'},
   {id:'media',label:'Images'}, {id:'sections',label:'Sections'},
 ];
 const copyGroups = [
@@ -192,6 +192,11 @@ export default function AdminPanel(){
           {tab==='links'&&<div className="admin-card">
             {(['github','linkedin'] as const).map(key=><Field key={key} label={key}><TextInput value={content.socials[key]}
               onChange={v=>update(d=>{d.socials[key]=v;})}/></Field>)}
+            <Field label="WhatsApp number (including country code)"><input type="tel" dir="ltr" value={content.socials.whatsapp}
+              placeholder="+201024255791" onChange={e=>update(d=>{d.socials.whatsapp=e.target.value;})}/></Field>
+            <Field label="Email address"><input type="email" dir="ltr" value={content.socials.email}
+              placeholder="name@example.com" onChange={e=>update(d=>{d.socials.email=e.target.value;})}/></Field>
+            <p className="admin-hint">Leave WhatsApp or email empty to hide its contact button.</p>
           </div>}
           {tab==='media'&&<div className="admin-media-grid">
             {(['hero','sea','event'] as ImageKey[]).map(key=><div className="admin-card" key={key}>

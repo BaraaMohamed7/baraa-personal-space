@@ -66,6 +66,8 @@ Once it starts locally, we can polish image edges, tune mobile layout, project c
 
 The public website uses a Vercel Blob-backed content document. Open `/admin` to manage it. The panel covers bilingual text, typing roles, projects, experience, social links, image uploads, and section visibility.
 
+Use **Contact & social links** to edit the WhatsApp number (country code included, e.g. `+201024255791`) and email address. The contact section opens WhatsApp chats and the visitor's email app. Clear either field to hide its button, then publish changes. Existing releases without these fields use the defaults from `src/data/site.ts`.
+
 - The first login requires `ADMIN_PASSWORD_HASH` (PBKDF2-SHA256 salt:hash) and `ADMIN_SESSION_SECRET` (random 40+ character secret). Configure both as secret environment variables for Production and Preview. Never commit plaintext passwords.
 - Content persistence uses the connected Vercel Blob store via `BLOB_READ_WRITE_TOKEN`. All writes are server-side and require a signed, httpOnly, SameSite=Strict session cookie. Origin checks protect write requests.
 - Data is stored as immutable published JSON releases under `portfolio/releases/` and is read dynamically. Edits are not public until **Publish changes**. The admin checks version conflicts before overwriting a newer release.

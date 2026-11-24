@@ -295,7 +295,10 @@ function Contact({ lang }: { lang: Language }) {
     <SectionKicker number="05">{t.contactKicker}</SectionKicker>
     <h2>{t.contactTitle1}<br />{t.contactTitle2}</h2><p>{t.contactText}</p>
     <div className="contact-actions"><a className="btn btn-primary" target="_blank" rel="noopener noreferrer" href={socials.linkedin}>LinkedIn ↗</a>
-      <a className="btn btn-secondary" target="_blank" rel="noopener noreferrer" href={socials.github}>GitHub ↗</a></div>
+      <a className="btn btn-secondary" target="_blank" rel="noopener noreferrer" href={socials.github}>GitHub ↗</a>
+      {socials.whatsapp && <a className="btn btn-secondary" target="_blank" rel="noopener noreferrer" href={`https://wa.me/${socials.whatsapp.replace(/^\+/, '')}`}>{lang === 'ar' ? 'واتساب' : 'WhatsApp'}</a>}
+      {socials.email && <a className="btn btn-secondary" href={`mailto:${encodeURIComponent(socials.email)}`}>{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}</a>}
+    </div>
   </div></section>;
 }
 

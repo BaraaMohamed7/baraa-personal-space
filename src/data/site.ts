@@ -68,4 +68,6 @@ export const experiences: Experience[] = [
 export const socials = {
   github: 'https://github.com/BaraaMohamed7',
   linkedin: 'https://www.linkedin.com/in/baraa-mohamed-dev',
+  whatsapp: '+201024255791',
+  email: 'baraa.mohamed.ahmed7@gmail.com',
 };
