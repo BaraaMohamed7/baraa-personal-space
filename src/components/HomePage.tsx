@@ -229,13 +229,51 @@ function ExperienceSection({ lang }: { lang: Language }) {
 function About({ lang }: { lang: Language }) {
   const { images } = useSite();
   const t = useSite().copy[lang];
-  return <section className="section about-section" id="about" aria-labelledby="about-title"><div className="container about-grid">
-    <div className="about-copy reveal"><SectionKicker number="03">{t.aboutKicker}</SectionKicker><h2 id="about-title">{t.aboutTitle}</h2><p>{t.aboutText1}</p><p>{t.aboutText2}</p>
-      <div className="tag-row">{(['tag1', 'tag2', 'tag3', 'tag4'] as TranslationKey[]).map(key => <span key={key}>{t[key]}</span>)}</div>
-    </div>
-    <div className="about-visuals reveal"><figure className="about-photo large"><Image src={images.sea} alt="Baraa outdoors near the sea" width={960} height={1280} unoptimized sizes="(max-width: 800px) 100vw, 35vw" /></figure>
-      <figure className="about-photo small"><Image src={images.event} alt="Baraa at a technology event" width={960} height={1280} unoptimized sizes="(max-width: 800px) 100vw, 25vw" /></figure></div>
-  </div></section>;
+  return (
+    <section
+      className="section about-section"
+      id="about"
+      aria-labelledby="about-title"
+    >
+      <div className="container about-grid">
+        <div className="about-copy reveal">
+          <SectionKicker number="03">{t.aboutKicker}</SectionKicker>
+          <h2 id="about-title">{t.aboutTitle}</h2>
+          <p>{t.aboutText1}</p>
+          <p>{t.aboutText2}</p>
+          <div className="tag-row">
+            {(["tag1", "tag2", "tag3", "tag4"] as TranslationKey[]).map(
+              (key) => (
+                <span key={key}>{t[key]}</span>
+              ),
+            )}
+          </div>
+        </div>
+        <div className="about-visuals reveal">
+          <figure className="about-photo large">
+            <Image
+              src={images.sea}
+              alt="Baraa outdoors near the sea"
+              width={960}
+              height={1280}
+              unoptimized
+              sizes="(max-width: 800px) 100vw, 35vw"
+            />
+          </figure>
+          <figure className="about-photo small">
+            <Image
+              src={images.icpc}
+              alt="Baraa at the ECPC 2026 contest"
+              width={960}
+              height={1280}
+              unoptimized
+              sizes="(max-width: 800px) 100vw, 25vw"
+            />
+          </figure>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function Now({ lang }: { lang: Language }) {

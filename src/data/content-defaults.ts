@@ -58,8 +58,14 @@ export interface SiteContent {
   projects: Project[];
   experiences: Experience[];
   socials: typeof socials;
-  images: { hero: string; sea: string; event: string };
-  sections: { work: boolean; experience: boolean; about: boolean; now: boolean; contact: boolean };
+  images: { hero: string; sea: string; icpc: string };
+  sections: {
+    work: boolean;
+    experience: boolean;
+    about: boolean;
+    now: boolean;
+    contact: boolean;
+  };
 }
 
 export const defaultSiteContent: SiteContent = {
@@ -71,7 +77,7 @@ export const defaultSiteContent: SiteContent = {
   images: {
     hero: "/images/hero-portrait.png",
     sea: "/images/sea-photo.png",
-    event: "/images/icpc-photo.jpg",
+    icpc: "/images/icpc-photo.jpg",
   },
   sections: {
     work: true,
