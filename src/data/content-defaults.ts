@@ -63,7 +63,21 @@ export interface SiteContent {
 }
 
 export const defaultSiteContent: SiteContent = {
-  copy: defaultCopy, roles: defaultRoles, projects, experiences, socials,
-  images: { hero: '/images/hero-portrait.png', sea: '/images/sea-photo.png', event: '/images/event-photo.png' },
-  sections: { work:true, experience:true, about:true, now:true, contact:true },
+  copy: defaultCopy,
+  roles: defaultRoles,
+  projects,
+  experiences,
+  socials,
+  images: {
+    hero: "/images/hero-portrait.png",
+    sea: "/images/sea-photo.png",
+    event: "/images/icpc-photo.jpg",
+  },
+  sections: {
+    work: true,
+    experience: true,
+    about: true,
+    now: true,
+    contact: true,
+  },
 };
